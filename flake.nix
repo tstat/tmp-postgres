@@ -41,8 +41,9 @@
                     SystemConfiguration
                     pkgs.libiconv
                   ];
+                system-dependent = if pkgs.stdenv.isDarwin then darwin-frameworks else [ ];
               in
-              if system == "aarch64-darwin" then darwin-frameworks else [ ];
+              system-dependent;
           };
         };
       });
