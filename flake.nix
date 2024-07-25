@@ -1,5 +1,5 @@
 {
-  description = "basic rust project";
+  description = "Easily start a temporary PostgreSQL server for testing or exploration";
 
   inputs = {
     flake-utils.url = "github:numtide/flake-utils";
@@ -30,7 +30,7 @@
           "${package-name}" = pkgs.rustPlatform.buildRustPackage {
             pname = package-name;
             version = "0.1.0";
-            cargoSha256 = "sha256-o9pxSXyiDS7FFdZmXssY1qQvyya0tTg1nRpMPXd9ZO4=";
+            cargoSha256 = "sha256-6V1NbCW3y1GA8y8yL5hP/GVNHjdhbsvT31t2iwEfkec=";
             src = ./src;
             buildInputs =
               let
