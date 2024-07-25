@@ -237,6 +237,8 @@ dependencies = [
 [[package]]
 name = "process-muxer"
 version = "0.1.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "51de0e0e97f5c4afbf8a9384d9ed427f222fa7660a2434f794dc37148279c014"
 dependencies = [
  "console",
  "libc",
@@ -246,7 +248,9 @@ dependencies = [
 
 [[package]]
 name = "process-muxer-core"
-version = "0.1.0"
+version = "0.1.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "a805eca92ec31b5641159ebb40578fbc37f963ec4723bc8ea897558a3c43595a"
 dependencies = [
  "libc",
  "mio",
