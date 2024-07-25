@@ -1,0 +1,16 @@
+[package]
+name = "tmp-postgres"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+process-muxer = { path = "/Users/tstat/code/rust/process-muxer/src/process-muxer" }
+clap = { version = "=4.4.18", features = ["derive"] }
+console = "0.15.7"
+dialoguer = "0.10.4"
+regex = "1.9.3"
+
+[[bin]]
+name = "tmp-postgres"
