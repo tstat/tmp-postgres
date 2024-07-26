@@ -4,6 +4,8 @@
 `tmp-postgres` is a CLI program to aid in the creation and destruction of
 temporary PostgreSQL instances.
 
+[![asciicast](https://asciinema.org/a/FbJenFrs4AA52qNHgkgaNb7UK.svg)](https://asciinema.org/a/FbJenFrs4AA52qNHgkgaNb7UK)
+
 Running
 
 ```
