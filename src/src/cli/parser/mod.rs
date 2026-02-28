@@ -9,6 +9,9 @@ pub struct Args {
     /// Run postgres in an existing db cluster
     #[arg(long)]
     pub use_existing_dir: bool,
+    /// Automatically configure auto-explain
+    #[arg(long)]
+    pub auto_explain: bool,
     /// Localhost port to listen on
     #[arg(short, long)]
     pub port: Option<u16>,

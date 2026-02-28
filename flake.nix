@@ -3,7 +3,7 @@
 
   inputs = {
     flake-utils.url = "github:numtide/flake-utils";
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-24.05";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-25.11";
   };
 
   outputs = { self, flake-utils, nixpkgs }:
@@ -30,17 +30,11 @@
           "${package-name}" = pkgs.rustPlatform.buildRustPackage {
             pname = package-name;
             version = "0.1.0";
-            cargoSha256 = "sha256-6V1NbCW3y1GA8y8yL5hP/GVNHjdhbsvT31t2iwEfkec=";
+            cargoHash = "sha256-L8cCKVhrXbazm4NvGKWU+i571lk8zA29bvaNdxU0BDM=";
             src = ./src;
             buildInputs =
               let
-                darwin-frameworks = with pkgs.darwin.apple_sdk.frameworks;
-                  [
-                    CoreFoundation
-                    CoreServices
-                    SystemConfiguration
-                    pkgs.libiconv
-                  ];
+                darwin-frameworks = [ ];
                 system-dependent = if pkgs.stdenv.isDarwin then darwin-frameworks else [ ];
               in
               system-dependent;

@@ -184,7 +184,7 @@ fn run<'a>(args: &'a cli::Args, muxer: &'a mut PgMuxer) -> Result<(), Error<'a>>
         .map_err(|e| (&args.directory as &'a Path, e))?;
     if !args.use_existing_dir {
         muxer.init_db(&args.directory)?;
-        tweak_postgresql_conf(&args.directory, args.port).unwrap();
+        tweak_postgresql_conf(&args.directory, args.auto_explain, args.port).unwrap();
     }
     muxer.run_postgres(&args.directory, args.port)?;
     if !args.use_existing_dir {
@@ -227,7 +227,7 @@ fn run<'a>(args: &'a cli::Args, muxer: &'a mut PgMuxer) -> Result<(), Error<'a>>
     Ok(())
 }
 
-fn tweak_postgresql_conf(db_path: &Path, port: Option<u16>) -> io::Result<()> {
+fn tweak_postgresql_conf(db_path: &Path, auto_explain: bool, port: Option<u16>) -> io::Result<()> {
     let mut conf_path = PathBuf::from(db_path);
     conf_path.push("postgresql.conf");
     let file = OpenOptions::new().append(true).open(conf_path)?;
@@ -236,14 +236,28 @@ fn tweak_postgresql_conf(db_path: &Path, port: Option<u16>) -> io::Result<()> {
         None => &[("listen_addresses", "")],
         Some(_) => &[],
     };
+    for (k, v) in port_options {
+        writeln!(file, "{k} = '{v}'")?;
+    }
     let options: &[(&str, &str)] = &[
         ("unix_socket_directories", db_path.to_str().unwrap()),
         ("log_connections", "on"),
         ("log_disconnections", "on"),
     ];
-    for options in [port_options, options] {
-        for (k, v) in options {
-            writeln!(file, "{k} = '{v}'")?;
+    for (k, v) in options {
+        writeln!(file, "{k} = '{v}'")?;
+    }
+    if auto_explain {
+        let auto_explain_options: &[(&str, &str)] = &[
+            ("session_preload_libraries", "'auto_explain'"),
+            ("auto_explain.log_min_duration", "0"),
+            ("auto_explain.log_analyze", "true"),
+            ("auto_explain.log_buffers", "true"),
+            ("auto_explain.log_triggers", "true"),
+            ("auto_explain.log_nested_statements", "true"),
+        ];
+        for (k, v) in auto_explain_options {
+            writeln!(file, "{k} = {v}")?;
         }
     }
     file.flush()?;
